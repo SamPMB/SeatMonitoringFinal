@@ -1,19 +1,10 @@
 ﻿using SeatMonitoringLibrary;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LibraryUI
 {
     public partial class LoginForm : Form
     {
-       
+
 
         public LoginForm()
         {
@@ -39,16 +30,17 @@ namespace LibraryUI
         private void button1_Click(object sender, EventArgs e)
         {
 
-           
+
             LibraryDashboardForm libraryDashboard = new LibraryDashboardForm(userName.Text);
-            StaffModel staffModel = new StaffModel();
+            // StaffModel staffModel = new StaffModel();
+            SecurityModel securityModel = new SecurityModel();
 
 
 
             string pwd = password.Text;
 
 
-            if (staffModel.StaffLoginInValidation(pwd))
+            if (securityModel.StaffLoginInValidation(pwd))
             {
                 this.Hide();
                 libraryDashboard.Show();
@@ -62,7 +54,7 @@ namespace LibraryUI
         public void OpenDashboard()
         {
             LibraryDashboardForm libraryDashboard = new LibraryDashboardForm();
-            
+
             this.Hide();
             libraryDashboard.Show();
 
@@ -72,5 +64,14 @@ namespace LibraryUI
         {
 
         }
+
+
+
+
+
+
+
+
+
     }
 }

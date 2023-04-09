@@ -1,24 +1,13 @@
 ﻿using SeatMonitoringLibrary;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LibraryUI
 {
     public partial class SeatListForm : Form
     {
         int count;
-       ArduinoConnectModel arduino = new ArduinoConnectModel();
-        
-      
+        ArduinoConnectModel arduino = new ArduinoConnectModel();
+
+
         public SeatListForm()
         {
             InitializeComponent();
@@ -36,19 +25,19 @@ namespace LibraryUI
         {
             LibraryDashboardForm dashboardForm = new LibraryDashboardForm();
 
-            
+
         }
 
         private void seat3_Click(object sender, EventArgs e)
         {
 
 
-            
+
         }
 
-       public void ChangeSeatStatus()
+        public void ChangeSeatStatus()
         {
-            if ( arduino.Seat1_status == 1)
+            if (arduino.Seat1_status == 0)
             {
                 seat1Label.BackColor = Color.Blue;
             }
@@ -56,7 +45,7 @@ namespace LibraryUI
             {
                 seat1Label.BackColor = Color.Red;
             }
-            if (arduino.Seat2_status == 1)
+            if (arduino.Seat2_status == 0)
             {
                 seat2Lable.BackColor = Color.Blue;
             }
@@ -64,7 +53,7 @@ namespace LibraryUI
             {
                 seat2Lable.BackColor = Color.Red;
             }
-            if (arduino.Seat3_status == 1)
+            if (arduino.Seat3_status == 0)
             {
                 seat3Label.BackColor = Color.Blue;
             }
@@ -72,7 +61,7 @@ namespace LibraryUI
             {
                 seat3Label.BackColor = Color.Red;
             }
-            if (arduino.Seat3_status == 1)
+            if (arduino.Seat3_status == 0)
             {
                 seat4Label.BackColor = Color.Blue;
             }
@@ -85,18 +74,18 @@ namespace LibraryUI
         }
 
         private void backButton_Click(object sender, EventArgs e)
-        { 
-          LibraryDashboardForm dashboard = new LibraryDashboardForm();
+        {
+            //LibraryDashboardForm dashboard = new LibraryDashboardForm();
 
 
-          
-          
-               this.Hide();
-            dashboard.Show();
-            
-            
+
+
+            //this.Hide();
+            // dashboard.Show();
+
+
         }
-       
+
 
 
     }
@@ -123,6 +112,6 @@ namespace LibraryUI
 
 
 
-   
-    
+
+
 

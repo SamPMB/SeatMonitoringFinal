@@ -5,7 +5,7 @@ namespace SeatMonitoringLibrary
 
     public class TimerModel
     {
-        
+
         ArduinoConnectModel arduino = new ArduinoConnectModel();
 
 
@@ -19,11 +19,11 @@ namespace SeatMonitoringLibrary
         public long Seat4_Timer { get { return seat4_Timer; } set { seat4_Timer = value; } }
 
         public void StartTimer()
-        {  
+        {
 
-          if (arduino.Seat1 == 1)
+            if (arduino.Seat1 == 1)
             {
-               seat1_Timer = seat1_Timer + 1;
+                seat1_Timer = seat1_Timer + 1;
             }
             else
             {
@@ -65,28 +65,6 @@ namespace SeatMonitoringLibrary
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-    
-
-
-   
-
-
 
 }
