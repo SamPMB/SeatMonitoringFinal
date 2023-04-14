@@ -31,21 +31,29 @@ namespace SeatMonitoringLibrary
         public void ArduinoConnect()
         {
 
+
             // create a TCP listener
             TcpListener listener = new TcpListener(IPAddress.Any, 1000);
 
             // start listening for incoming connections
             listener.Start();
+            Console.WriteLine("Waiting for connection...");
+
+            // accept an incoming connection
+            //TcpClient client = listener.AcceptTcpClient();
 
 
+            // get the network stream for the client
+            // NetworkStream stream = client.GetStream();
+            //Thread.Sleep(500);
             // continuously read data from the client
             while (true)
             {
                 listener.Start();
-
+                Console.WriteLine("Connected");
                 TcpClient client = listener.AcceptTcpClient();
                 NetworkStream stream = client.GetStream();
-                Thread.Sleep(200);
+                Thread.Sleep(500);
                 byte[] data = new byte[1024];
                 //int bytesRead = stream.Read(data, 0, data.Length);
 
@@ -60,30 +68,68 @@ namespace SeatMonitoringLibrary
                 while ((bytesRead = stream.Read(data, 0, data.Length)) > 0)
                 {
                     sb.Append(Encoding.UTF8.GetString(data, 0, bytesRead));
+
+                    //Console.WriteLine(sb.ToString());
                 }
 
                 // Split the resulting string into an array of strings
                 string[] stringArray = sb.ToString().Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
+                int cv1 = 5;
+                int cv2 = 5;
+                int cv3 = 5;
+                int cv4 = 5;
+                string cv5 = "";
 
-                seat1_status = int.Parse(stringArray[0].Substring(0, 1));
 
-                seat2_status = int.Parse(stringArray[0].Substring(1, 1));
 
-                seat3_status = int.Parse(stringArray[0].Substring(2, 1));
+                if (sb.Length > 4)
+                {
 
-                seat4_status = int.Parse(stringArray[0].Substring(3, 1));
+                    cv1 = int.Parse(stringArray[0].Substring(0, 1));
+                    cv2 = int.Parse(stringArray[0].Substring(1, 1));
+                    cv3 = int.Parse(stringArray[0].Substring(2, 1));
+                    cv4 = int.Parse(stringArray[0].Substring(3, 1));
+                    cv5 = stringArray[0].Substring(8, 9);
 
-                string card = stringArray[0].Substring(3, 1);
+                    Console.WriteLine();
+                    Console.WriteLine(cv5);
+                    Console.WriteLine();
+                }
+                else
+                {
+                    try
+                    {
 
-                DatabaseAccessModel databaseAccess = new DatabaseAccessModel();
-                //SecurityModel securityModel = new SecurityModel();
-                //databaseAccess.InsertSeatStatus();
-                //databaseAccess.GetAvailableSeat();
-                //databaseAccess.VerifyStudentId("19143648");
+                        cv1 = int.Parse(stringArray[0].Substring(0, 1));
+                        cv2 = int.Parse(stringArray[0].Substring(1, 1));
+                        cv3 = int.Parse(stringArray[0].Substring(2, 1));
+                        cv4 = int.Parse(stringArray[0].Substring(3, 1));
+
+                    }
+                    catch (Exception exep)
+                    {
+
+
+                    }
+
+
+
+                    Console.WriteLine(cv1);
+                    Console.WriteLine();
+                    Console.WriteLine(cv2);
+                    Console.WriteLine();
+                    Console.WriteLine(cv3);
+                    Console.WriteLine();
+                    Console.WriteLine(cv4);
+
+                }
+
+                //Thread.Sleep(5000);
+
 
             }
-            // 
+
         }// end of Arduino
     }
 

@@ -2,13 +2,19 @@ using Dapper;
 using SeatMonitoringLibrary;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO.Ports;
 using System.Timers;
 using Timer = System.Timers.Timer;
+
+
+
 
 namespace LibraryUI
 {
     public partial class LibraryDashboardForm : Form
     {
+        private SerialPort _serialPort;
+        public bool getData = false;
         // Create a timer object
         private Timer timer1 = new Timer();
         private Timer timer2 = new Timer();
@@ -35,9 +41,16 @@ namespace LibraryUI
         public LibraryDashboardForm()
         {
             InitializeComponent();
+            Thread.Sleep(5000);
             displayData();
             ArduinoConnectModel arduinoConnectModel = new ArduinoConnectModel();
             // availableSeatsLabel.Text = arduinoConnectModel.GetAvailableSeat().ToString();
+
+            //timer
+
+
+
+
 
 
             // Initialize the timer with a 5-second interval
@@ -73,7 +86,7 @@ namespace LibraryUI
             timer2 = new Timer(500);
             timer3 = new Timer(1000);
             timer4 = new Timer(500);
-            timer5 = new Timer(500);
+            timer5 = new Timer(1000);
 
             // Attach an event handler for the timer's Elapsed event
             timer1.Elapsed += Timer1_Elapsed;
@@ -236,6 +249,7 @@ namespace LibraryUI
         }
 
 
+
         public void Timer5_Elapsed(object sender, ElapsedEventArgs e)
         {
             // Create an instance of the OtherClass
@@ -243,29 +257,44 @@ namespace LibraryUI
 
             // Call a method on the OtherClass
 
-
-            // Perform any necessary UI updates on the main UI thread
-            Invoke(new Action(() =>
+            if (getData)
             {
-                // Update UI elements if needed
-
-                if (seat5_timer / 5 == 0)
+                // Perform any necessary UI updates on the main UI thread
+                Invoke(new Action(() =>
                 {
-
-                    //ArduinoConnectModel arduinoConnectModel = new ArduinoConnectModel();
-                    //arduinoConnectModel.ArduinoConnect();
-
-                }
+                    string data = _serialPort.ReadLine();
 
 
+                    String check = "0 ";
+                    char[] separator = { ',' };
+
+                    string[] myArray = data.Split(separator);
+
+                    if (myArray[0].Length == check.Length)
+                    {
+                        string seat1 = myArray[0];
+                        displayseat1.Text = seat1;
+                        string seat2 = myArray[1];
+                        displayseat2.Text = seat2;
+                        string seat3 = myArray[2];
+                        displayseat3.Text = seat3;
+                        string seat4 = myArray[3];
+                        displayseat4.Text = seat4;
+
+                    }
+                    else
+                    {
+                        string cardId = myArray[0];
+                        displaycard.Text = cardId;
 
 
 
 
+                    }
 
 
-
-            }));
+                }));
+            }
         }
 
 
@@ -371,13 +400,22 @@ namespace LibraryUI
 
 
 
-
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
 
         private void guna2Panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
         {
 
         }
@@ -517,5 +555,83 @@ namespace LibraryUI
             displayData();
             availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // other code
+
+
+
+        private void connectBT_Click(object sender, EventArgs e)
+        {
+
+
+
+            //string data = _serialPort.ReadLine();
+            //display.Text = "Received data: " + data;
+
+
+
+
+
+
+        }
+
+        private void outgoingTB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openPort_Click(object sender, EventArgs e)
+        {
+
+
+
+            _serialPort = new SerialPort();
+            _serialPort.PortName = "COM9";
+            _serialPort.BaudRate = 115200;
+            _serialPort.DataBits = 8;
+            _serialPort.StopBits = StopBits.One;
+            _serialPort.Parity = Parity.None;
+            _serialPort.Open();
+
+            open.Text = "Serial port opened.";
+            getData = true;
+
+        }
+
+
+
+        private void display_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+
+        private static void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+
+
+        }
+
+        private void displayseat2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
+
+
 }

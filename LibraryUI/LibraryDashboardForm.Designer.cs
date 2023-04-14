@@ -49,10 +49,12 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.adminImage = new System.Windows.Forms.PictureBox();
+            this.displaycard = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dashboardPictureBox = new System.Windows.Forms.PictureBox();
             this.guna2CustomGradientPanel1 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             this.refreshButton = new Guna.UI2.WinForms.Guna2CircleButton();
+            this.open = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.available = new Guna.UI2.WinForms.Guna2CircleButton();
             this.availableSeatsLabel = new System.Windows.Forms.Label();
@@ -60,8 +62,16 @@
             this.logout = new Guna.UI2.WinForms.Guna2CircleButton();
             this.settings = new System.Windows.Forms.PictureBox();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            this.displayseat4 = new System.Windows.Forms.Label();
+            this.displayseat3 = new System.Windows.Forms.Label();
+            this.displayseat2 = new System.Windows.Forms.Label();
+            this.displayseat1 = new System.Windows.Forms.Label();
+            this.openPort = new System.Windows.Forms.Button();
+            this.connectBT = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.counterDataGrid = new System.Windows.Forms.DataGridView();
+            this.incomingTB = new System.Windows.Forms.ListBox();
+            this.outgoingTB = new System.Windows.Forms.ListBox();
             this.guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.adminImage)).BeginInit();
@@ -197,6 +207,15 @@
             this.adminImage.TabStop = false;
             this.adminImage.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // displaycard
+            // 
+            this.displaycard.AutoSize = true;
+            this.displaycard.Location = new System.Drawing.Point(12, 12);
+            this.displaycard.Name = "displaycard";
+            this.displaycard.Size = new System.Drawing.Size(0, 25);
+            this.displaycard.TabIndex = 9;
+            this.displaycard.Click += new System.EventHandler(this.display_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -230,6 +249,7 @@
             this.guna2CustomGradientPanel1.BackColor = System.Drawing.Color.Transparent;
             this.guna2CustomGradientPanel1.BorderColor = System.Drawing.Color.Transparent;
             this.guna2CustomGradientPanel1.Controls.Add(this.refreshButton);
+            this.guna2CustomGradientPanel1.Controls.Add(this.open);
             this.guna2CustomGradientPanel1.Controls.Add(this.label2);
             this.guna2CustomGradientPanel1.Controls.Add(this.available);
             this.guna2CustomGradientPanel1.Controls.Add(this.availableSeatsLabel);
@@ -263,6 +283,15 @@
             this.refreshButton.TabIndex = 5;
             this.refreshButton.Text = "Refresh";
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            // 
+            // open
+            // 
+            this.open.AutoSize = true;
+            this.open.Location = new System.Drawing.Point(15, 310);
+            this.open.Name = "open";
+            this.open.Size = new System.Drawing.Size(47, 25);
+            this.open.TabIndex = 2;
+            this.open.Text = "data";
             // 
             // label2
             // 
@@ -346,6 +375,13 @@
             // 
             // guna2Panel2
             // 
+            this.guna2Panel2.Controls.Add(this.displayseat4);
+            this.guna2Panel2.Controls.Add(this.displayseat3);
+            this.guna2Panel2.Controls.Add(this.displayseat2);
+            this.guna2Panel2.Controls.Add(this.displayseat1);
+            this.guna2Panel2.Controls.Add(this.displaycard);
+            this.guna2Panel2.Controls.Add(this.openPort);
+            this.guna2Panel2.Controls.Add(this.connectBT);
             this.guna2Panel2.Controls.Add(this.pictureBox1);
             this.guna2Panel2.CustomizableEdges = customizableEdges10;
             this.guna2Panel2.FillColor = System.Drawing.Color.Silver;
@@ -354,6 +390,63 @@
             this.guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges11;
             this.guna2Panel2.Size = new System.Drawing.Size(600, 110);
             this.guna2Panel2.TabIndex = 11;
+            // 
+            // displayseat4
+            // 
+            this.displayseat4.AutoSize = true;
+            this.displayseat4.Location = new System.Drawing.Point(173, 40);
+            this.displayseat4.Name = "displayseat4";
+            this.displayseat4.Size = new System.Drawing.Size(59, 25);
+            this.displayseat4.TabIndex = 13;
+            this.displayseat4.Text = "label3";
+            // 
+            // displayseat3
+            // 
+            this.displayseat3.AutoSize = true;
+            this.displayseat3.Location = new System.Drawing.Point(110, 71);
+            this.displayseat3.Name = "displayseat3";
+            this.displayseat3.Size = new System.Drawing.Size(59, 25);
+            this.displayseat3.TabIndex = 12;
+            this.displayseat3.Text = "label3";
+            // 
+            // displayseat2
+            // 
+            this.displayseat2.AutoSize = true;
+            this.displayseat2.Location = new System.Drawing.Point(12, 69);
+            this.displayseat2.Name = "displayseat2";
+            this.displayseat2.Size = new System.Drawing.Size(59, 25);
+            this.displayseat2.TabIndex = 11;
+            this.displayseat2.Text = "label3";
+            this.displayseat2.Click += new System.EventHandler(this.displayseat2_Click);
+            // 
+            // displayseat1
+            // 
+            this.displayseat1.AutoSize = true;
+            this.displayseat1.Location = new System.Drawing.Point(173, 5);
+            this.displayseat1.Name = "displayseat1";
+            this.displayseat1.Size = new System.Drawing.Size(59, 25);
+            this.displayseat1.TabIndex = 10;
+            this.displayseat1.Text = "label3";
+            // 
+            // openPort
+            // 
+            this.openPort.Location = new System.Drawing.Point(446, 69);
+            this.openPort.Name = "openPort";
+            this.openPort.Size = new System.Drawing.Size(112, 34);
+            this.openPort.TabIndex = 3;
+            this.openPort.Text = "open";
+            this.openPort.UseVisualStyleBackColor = true;
+            this.openPort.Click += new System.EventHandler(this.openPort_Click);
+            // 
+            // connectBT
+            // 
+            this.connectBT.Location = new System.Drawing.Point(368, 19);
+            this.connectBT.Name = "connectBT";
+            this.connectBT.Size = new System.Drawing.Size(112, 34);
+            this.connectBT.TabIndex = 1;
+            this.connectBT.Text = "Connect";
+            this.connectBT.UseVisualStyleBackColor = true;
+            this.connectBT.Click += new System.EventHandler(this.connectBT_Click);
             // 
             // pictureBox1
             // 
@@ -378,12 +471,33 @@
             this.counterDataGrid.TabIndex = 12;
             this.counterDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.counterDataGrid_CellContentClick);
             // 
+            // incomingTB
+            // 
+            this.incomingTB.FormattingEnabled = true;
+            this.incomingTB.ItemHeight = 25;
+            this.incomingTB.Location = new System.Drawing.Point(277, 214);
+            this.incomingTB.Name = "incomingTB";
+            this.incomingTB.Size = new System.Drawing.Size(180, 129);
+            this.incomingTB.TabIndex = 7;
+            // 
+            // outgoingTB
+            // 
+            this.outgoingTB.FormattingEnabled = true;
+            this.outgoingTB.ItemHeight = 25;
+            this.outgoingTB.Location = new System.Drawing.Point(593, 203);
+            this.outgoingTB.Name = "outgoingTB";
+            this.outgoingTB.Size = new System.Drawing.Size(180, 129);
+            this.outgoingTB.TabIndex = 7;
+            this.outgoingTB.SelectedIndexChanged += new System.EventHandler(this.outgoingTB_SelectedIndexChanged);
+            // 
             // LibraryDashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(978, 644);
+            this.Controls.Add(this.outgoingTB);
+            this.Controls.Add(this.incomingTB);
             this.Controls.Add(this.counterDataGrid);
             this.Controls.Add(this.guna2Panel2);
             this.Controls.Add(this.guna2CustomGradientPanel1);
@@ -405,6 +519,7 @@
             this.guna2CustomGradientPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.settings)).EndInit();
             this.guna2Panel2.ResumeLayout(false);
+            this.guna2Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.counterDataGrid)).EndInit();
             this.ResumeLayout(false);
@@ -436,5 +551,15 @@
         private Guna.UI2.WinForms.Guna2CircleButton refreshButton;
         private Guna.UI2.WinForms.Guna2Button searchButton;
         private TextBox seachTextBox;
+        private Button connectBT;
+        private ListBox incomingTB;
+        private ListBox outgoingTB;
+        private Label open;
+        private Button openPort;
+        private Label displaycard;
+        private Label displayseat4;
+        private Label displayseat3;
+        private Label displayseat2;
+        private Label displayseat1;
     }
 }
