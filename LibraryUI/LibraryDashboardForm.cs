@@ -6,14 +6,12 @@ using System.IO.Ports;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
-
-
-
 namespace LibraryUI
 {
     public partial class LibraryDashboardForm : Form
     {
         private SerialPort _serialPort;
+        private SerialPort _serialPortId;
         public bool getData = false;
         // Create a timer object
         private Timer timer1 = new Timer();
@@ -22,26 +20,27 @@ namespace LibraryUI
         private Timer timer4 = new Timer();
         private Timer timer5 = new Timer();
 
+
         TimerModel timerModel = new TimerModel();
         SeatListForm seatListForm = new SeatListForm();
         int seat1_timer = 100;
         int seat2_timer = 100;
         int seat3_timer = 100;
         int seat4_timer = 100;
-        int seat5_timer = 9;
+        int seat5_timer = 100;
         public int Seat1_timer { get { return seat1_timer; } set { seat1_timer = value; } }
         public int Seat2_timer { get { return seat2_timer; } set { seat2_timer = value; } }
         public int Seat3_timer { get { return seat3_timer; } set { seat3_timer = value; } }
         public int Seat4_timer { get { return seat4_timer; } set { seat4_timer = value; } }
         public int Seat5_timer { get { return seat5_timer; } set { seat5_timer = value; } }
-
+        string globalVaId = "";
 
 
 
         public LibraryDashboardForm()
         {
             InitializeComponent();
-            Thread.Sleep(5000);
+            //Thread.Sleep(5000);
             displayData();
             ArduinoConnectModel arduinoConnectModel = new ArduinoConnectModel();
             // availableSeatsLabel.Text = arduinoConnectModel.GetAvailableSeat().ToString();
@@ -54,11 +53,11 @@ namespace LibraryUI
 
 
             // Initialize the timer with a 5-second interval
-            timer1 = new Timer(1000);
-            timer2 = new Timer(1000);
-            timer3 = new Timer(1000);
-            timer4 = new Timer(1000);
-            timer5 = new Timer(1000);
+            timer1 = new Timer(500);
+            timer2 = new Timer(500);
+            timer3 = new Timer(500);
+            timer4 = new Timer(500);
+            timer5 = new Timer(10000);
 
 
             // Attach an event handler for the timer's Elapsed event
@@ -66,7 +65,7 @@ namespace LibraryUI
             timer2.Elapsed += Timer2_Elapsed;
             timer3.Elapsed += Timer3_Elapsed;
             timer4.Elapsed += Timer4_Elapsed;
-            timer5.Elapsed += Timer5_Elapsed;
+            //  timer5.Elapsed += Timer5_Elapsed;
 
 
         }
@@ -82,24 +81,29 @@ namespace LibraryUI
             //availableSeatsLabel.Text = arduinoConnectModel.GetAvailableSeat().ToString();
             availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
             // Initialize the timer with a 5-second interval
-            timer1 = new Timer(1000);
+            timer1 = new Timer(500);
             timer2 = new Timer(500);
-            timer3 = new Timer(1000);
+            timer3 = new Timer(500);
             timer4 = new Timer(500);
-            timer5 = new Timer(1000);
+            timer5 = new Timer(10000);
 
             // Attach an event handler for the timer's Elapsed event
             timer1.Elapsed += Timer1_Elapsed;
             timer2.Elapsed += Timer2_Elapsed;
             timer3.Elapsed += Timer3_Elapsed;
             timer4.Elapsed += Timer4_Elapsed;
-            timer5.Elapsed += Timer5_Elapsed;
+            // timer5.Elapsed += Timer5_Elapsed;
 
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            TextBox.CheckForIllegalCrossThreadCalls = false;
+            Label.CheckForIllegalCrossThreadCalls = false;
+            ComboBox.CheckForIllegalCrossThreadCalls = false;
+
+
 
             // Start the timer when the form is loaded
             timer1.Start();
@@ -112,24 +116,34 @@ namespace LibraryUI
 
         public void Timer1_Elapsed(object sender, ElapsedEventArgs e)
         {
-            // Create an instance of the OtherClass
-
-
-            // Call a method on the OtherClass
-
-
+            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
             // Perform any necessary UI updates on the main UI thread
             Invoke(new Action(() =>
             {
                 // Update UI elements if needed
 
 
+
+
                 try
                 {
 
-                    counterDataGrid[3, 0].Value = (seat1_timer--).ToString();
 
+                    counterDataGrid[3, 0].Value = (seat1_timer--).ToString();
+                    if (seat1_timer < 0)
+                    {
+                        seat1_timer = 100;
+                    }
+
+                    if (seat1_timer == 60)
+                    {
+                        databaseAccessModel.updateSeatState1(3);
+                        displayData();
+                        availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+
+                    };
                 }
+
                 catch (Exception ex)
                 {
 
@@ -146,10 +160,14 @@ namespace LibraryUI
             }));
         }
 
+
+
+
+
         public void Timer2_Elapsed(object sender, ElapsedEventArgs e)
         {
             // Create an instance of the OtherClass
-
+            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
 
             // Call a method on the OtherClass
 
@@ -166,6 +184,19 @@ namespace LibraryUI
                 {
 
                     counterDataGrid[3, 1].Value = (seat2_timer--).ToString();
+                    if (seat2_timer < 0)
+                    {
+                        seat2_timer = 100;
+                    }
+                    if (seat2_timer == 60)
+                    {
+                        databaseAccessModel.updateSeatState2(4);
+                        displayData();
+                        availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+
+                    }
+
+
 
                 }
                 catch (Exception ex)
@@ -185,7 +216,7 @@ namespace LibraryUI
         {
             // Create an instance of the OtherClass
 
-
+            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
             // Call a method on the OtherClass
 
 
@@ -200,6 +231,19 @@ namespace LibraryUI
                 {
 
                     counterDataGrid[3, 2].Value = (seat3_timer--).ToString();
+                    if (seat3_timer < 0)
+                    {
+                        seat3_timer = 100;
+                    }
+                    if (seat3_timer == 60)
+                    {
+                        databaseAccessModel.updateSeatState3(5);
+                        displayData();
+                        availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+
+                    }
+
+
 
                 }
                 catch (Exception ex)
@@ -221,7 +265,7 @@ namespace LibraryUI
 
 
             // Call a method on the OtherClass
-
+            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
 
             // Perform any necessary UI updates on the main UI thread
             Invoke(new Action(() =>
@@ -234,6 +278,21 @@ namespace LibraryUI
                 {
 
                     counterDataGrid[3, 3].Value = (seat4_timer--).ToString();
+                    if (seat4_timer < 0)
+                    {
+                        seat4_timer = 100;
+                    }
+                    if (seat4_timer == 60)
+                    {
+                        databaseAccessModel.updateSeatState4(6);
+                        displayData();
+                        availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+
+                    }
+
+
+
+
 
                 }
                 catch (Exception ex)
@@ -248,54 +307,110 @@ namespace LibraryUI
             }));
         }
 
+        int j = 0;
+        int i = 0;
+        //public void Timer5_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+
+        //    if (getData)
+        //    {
+        //        // Perform any necessary UI updates on the main UI thread
+        //        Invoke(new Action(() =>
+        //        {
+        //            string globalVa = "";
+        //            globalVaId = "";
+        //            ArduinoConnectModel arduinoConnectModel = new ArduinoConnectModel();
+        //            try
+        //            {
+        //                if (_serialPort.IsOpen)
+        //                {
+        //                    globalVa = _serialPort.ReadLine();
+        //                    seatData.Text = globalVa;
+        //                    textBoxId.Text = i++.ToString();
+        //                    //_serialPort.Close();
+        //                }
+        //                else
+        //                {
+        //                    _serialPort = new SerialPort();
+        //                    _serialPort.PortName = "COM9";
+        //                    _serialPort.BaudRate = 9600;
+        //                    _serialPort.DataBits = 8;
+        //                    _serialPort.StopBits = StopBits.One;
+        //                    _serialPort.Parity = Parity.None;
+        //                    _serialPort.Open();
+        //                    globalVa = _serialPort.ReadLine();
+        //                    seatData.Text = globalVa;
+        //                    textBoxId.Text = i++.ToString();
+        //                    //_serialPort.Close();
+        //                }
+
+        //                if (_serialPortId.IsOpen)
+        //                {
+        //                    globalVa = _serialPortId.ReadLine();
+        //                    seatData.Text = globalVa;
+        //                    //  _serialPortId.Close();
+        //                }
+        //                else
+        //                {
+        //                    _serialPortId = new SerialPort();
+        //                    _serialPortId.PortName = "COM12";
+        //                    _serialPortId.BaudRate = 9600;
+        //                    _serialPortId.DataBits = 8;
+        //                    _serialPortId.StopBits = StopBits.One;
+        //                    _serialPortId.Parity = Parity.None;
+        //                    _serialPortId.Open();
+        //                    globalVa = _serialPortId.ReadLine();
+        //                    seatData.Text = globalVa;
+        //                    //_serialPortId.Close();
+
+        //                }
 
 
-        public void Timer5_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            // Create an instance of the OtherClass
-
-
-            // Call a method on the OtherClass
-
-            if (getData)
-            {
-                // Perform any necessary UI updates on the main UI thread
-                Invoke(new Action(() =>
-                {
-                    string data = _serialPort.ReadLine();
-
-
-                    String check = "0 ";
-                    char[] separator = { ',' };
-
-                    string[] myArray = data.Split(separator);
-
-                    if (myArray[0].Length == check.Length)
-                    {
-                        string seat1 = myArray[0];
-                        displayseat1.Text = seat1;
-                        string seat2 = myArray[1];
-                        displayseat2.Text = seat2;
-                        string seat3 = myArray[2];
-                        displayseat3.Text = seat3;
-                        string seat4 = myArray[3];
-                        displayseat4.Text = seat4;
-
-                    }
-                    else
-                    {
-                        string cardId = myArray[0];
-                        displaycard.Text = cardId;
 
 
 
 
-                    }
 
 
-                }));
-            }
-        }
+
+        //            }
+        //            catch (Exception sral)
+        //            {
+
+        //            }
+
+
+
+
+        //            char[] separator = { ',' };
+
+        //            try
+        //            {
+        //                string[] myArray = globalVa.Split(separator);
+        //                arduinoConnectModel.Seat1 = int.Parse(myArray[0]);
+        //                arduinoConnectModel.Seat2 = int.Parse(myArray[1]);
+        //                arduinoConnectModel.Seat3 = int.Parse(myArray[2]);
+        //                arduinoConnectModel.Seat4 = int.Parse(myArray[3]);
+        //                seatData.Text = globalVa;
+        //                textBoxId.Text = globalVaId;
+
+
+
+
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                // seatData.Text = (i).ToString();
+        //                seatData.Text = globalVa;
+        //                textBoxId.Text = globalVaId;
+
+
+        //            }
+
+
+        //        }));
+        //    }
+        //}
 
 
 
@@ -531,10 +646,20 @@ namespace LibraryUI
                     DataTable dt = new DataTable();
 
 
-                    SqlDataReader sqlDr = cmd.ExecuteReader();
-                    dt.Load(sqlDr);
 
-                    counterDataGrid.DataSource = dt;
+                    try
+                    {
+                        SqlDataReader sqlDr = cmd.ExecuteReader();
+                        dt.Load(sqlDr);
+                        counterDataGrid.DataSource = dt;
+                    }
+                    catch (Exception esr)
+                    {
+
+
+                    }
+
+
 
                     connection.Close();
 
@@ -549,9 +674,8 @@ namespace LibraryUI
         {
             DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
 
-            // databaseAccessModel.InsertSeatStatus();
+            databaseAccessModel.InsertSeatStatus();
             databaseAccessModel.GetAvailableSeat();
-            databaseAccessModel.VerifyStudentId("3A 4C 84 G3");
             displayData();
             availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
         }
@@ -578,9 +702,6 @@ namespace LibraryUI
 
 
 
-            //string data = _serialPort.ReadLine();
-            //display.Text = "Received data: " + data;
-
 
 
 
@@ -596,18 +717,33 @@ namespace LibraryUI
         private void openPort_Click(object sender, EventArgs e)
         {
 
-
-
             _serialPort = new SerialPort();
             _serialPort.PortName = "COM9";
-            _serialPort.BaudRate = 115200;
+            _serialPort.BaudRate = 9600;
             _serialPort.DataBits = 8;
             _serialPort.StopBits = StopBits.One;
             _serialPort.Parity = Parity.None;
             _serialPort.Open();
 
-            open.Text = "Serial port opened.";
-            getData = true;
+
+
+
+            _serialPortId = new SerialPort();
+            _serialPortId.PortName = "COM12";
+            _serialPortId.BaudRate = 9600;
+            _serialPortId.DataBits = 8;
+            _serialPortId.StopBits = StopBits.One;
+            _serialPortId.Parity = Parity.None;
+            _serialPortId.Open();
+
+
+            Thread seatThread = new Thread(ReadSeatStatus);
+            seatThread.Start();
+
+
+            openPort.Enabled = false;
+
+
 
         }
 
@@ -631,7 +767,138 @@ namespace LibraryUI
         {
 
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void enter_Click(object sender, EventArgs e)
+        {
+            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
+
+            // int arg = int.Parse(enterBox.Text);
+            //databaseAccessModel.GetStudentId(arg);
+            // databaseAccessModel.VerifyStudent("C69ADEF9");
+            //string id = globalVaId.Trim();
+            //43BAA9A2
+            //C69ADEF9
+            string id = enterBox.Text.Trim();
+            databaseAccessModel.VerifyStudent(id);
+            displayData();
+            availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+
+
+
+        }
+
+        private void guna2Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+
+        }
+
+
+
+
+        public async void ReadSeatStatus()
+        {
+            while (true)
+            {
+
+
+                string globalVa = "";
+                string globalVaId = "";
+
+                try
+                {
+
+                    if (_serialPort.IsOpen)
+                    {
+                        _serialPort = new SerialPort();
+                        _serialPort.PortName = "COM9";
+                        _serialPort.BaudRate = 9600;
+                        _serialPort.DataBits = 8;
+                        _serialPort.StopBits = StopBits.One;
+                        _serialPort.Parity = Parity.None;
+                        _serialPort.Open();
+                        globalVa = _serialPort.ReadLine();
+                        //seatData.Text = globalVa;
+                        seatData.Text = i++.ToString();
+                        Thread.Sleep(100);
+                        _serialPort.Close();
+
+                    }
+                    else
+                    {
+                        globalVa = _serialPort.ReadLine();
+                        // seatData.Text = globalVa;
+                        seatData.Text = i++.ToString();
+                        Thread.Sleep(100);
+                        _serialPort.Close();
+
+
+                    }
+
+                }
+                catch (Exception seatThead)
+                {
+                    seatData.Text = i++.ToString();
+                    Thread.Sleep(1000);
+
+                }
+
+
+
+
+                try
+                {
+
+                    if (_serialPortId.IsOpen)
+                    {
+                        _serialPortId = new SerialPort();
+                        _serialPortId.PortName = "COM12";
+                        _serialPortId.BaudRate = 9600;
+                        _serialPortId.DataBits = 8;
+                        _serialPortId.StopBits = StopBits.One;
+                        _serialPortId.Parity = Parity.None;
+                        _serialPortId.Open();
+                        globalVa = _serialPortId.ReadLine();
+                        //seatData.Text = globalVa;
+                        textBoxId.Text = j++.ToString();
+                        Thread.Sleep(100);
+                        _serialPortId.Close();
+
+                    }
+                    else
+                    {
+                        globalVa = _serialPortId.ReadLine();
+                        //seatData.Text = globalVa;
+                        textBoxId.Text = j++.ToString();
+                        _serialPortId.Close();
+                        Thread.Sleep(100);
+
+                    }
+
+                }
+                catch (Exception seatThead)
+                {
+                    textBoxId.Text = j++.ToString();
+                    Thread.Sleep(100);
+
+                }
+
+
+
+
+
+            }// endof while
+
+        }// end of read thread
+
+
+
     }
 
-
 }
+
