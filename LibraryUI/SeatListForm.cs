@@ -4,27 +4,24 @@ namespace LibraryUI
 {
     public partial class SeatListForm : Form
     {
-        int count;
-        ArduinoConnectModel arduino = new ArduinoConnectModel();
+       
+        
+        DatabaseAccessModel databaseAccess = new DatabaseAccessModel();
 
 
-        public SeatListForm()
+        public SeatListForm(int s1, int s2, int s3, int s4)
         {
             InitializeComponent();
+            ChangeSeatStatus(s1,s2,s3,s4);
         }
 
-        public SeatListForm(int count)
-        {
-            InitializeComponent();
-            this.count = count;
-
-        }
+       
 
 
         private void SeatListModel_Load(object sender, EventArgs e)
         {
-            LibraryDashboardForm dashboardForm = new LibraryDashboardForm();
-
+          
+           
 
         }
 
@@ -35,9 +32,9 @@ namespace LibraryUI
 
         }
 
-        public void ChangeSeatStatus()
+        public async void ChangeSeatStatus(int s1, int s2, int s3, int s4)
         {
-            if (arduino.Seat1_status == 0)
+            if (s1 == 0)
             {
                 seat1Label.BackColor = Color.Blue;
             }
@@ -45,7 +42,7 @@ namespace LibraryUI
             {
                 seat1Label.BackColor = Color.Red;
             }
-            if (arduino.Seat2_status == 0)
+            if (s4 == 0)
             {
                 seat2Lable.BackColor = Color.Blue;
             }
@@ -53,7 +50,7 @@ namespace LibraryUI
             {
                 seat2Lable.BackColor = Color.Red;
             }
-            if (arduino.Seat3_status == 0)
+            if (s3 == 0)
             {
                 seat3Label.BackColor = Color.Blue;
             }
@@ -61,7 +58,7 @@ namespace LibraryUI
             {
                 seat3Label.BackColor = Color.Red;
             }
-            if (arduino.Seat3_status == 0)
+            if (s2 == 0)
             {
                 seat4Label.BackColor = Color.Blue;
             }
@@ -75,14 +72,8 @@ namespace LibraryUI
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            //LibraryDashboardForm dashboard = new LibraryDashboardForm();
 
-
-
-
-            //this.Hide();
-            // dashboard.Show();
-
+           // ChangeSeatStatus();
 
         }
 

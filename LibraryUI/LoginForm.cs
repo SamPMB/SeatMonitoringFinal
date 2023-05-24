@@ -2,11 +2,11 @@
 
 namespace LibraryUI
 {
-    public partial class LoginForm : Form
+    public partial class LoginForm1 : Form
     {
 
 
-        public LoginForm()
+        public LoginForm1()
         {
             InitializeComponent();
 

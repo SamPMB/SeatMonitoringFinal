@@ -1,6 +1,3 @@
-using System.Net.Sockets;
-using System.Net;
-using System.Text;
 using SeatMonitoringLibrary;
 namespace LibraryUI
 {
@@ -18,21 +15,21 @@ namespace LibraryUI
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            //Parallel.Invoke(() => arduinoConnectModel.ArduinoConnect())
-              
-                //arduinoConnectModel.ArduinoConnect();
-                Application.Run(new LoginForm());
+            try
+            {
+                LoginForm1 loginForm = new LoginForm1();
+                Application.Run(loginForm);
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
 
-
-
-            
-
-
+            }
 
 
 
         }
 
     }
-    }
+}

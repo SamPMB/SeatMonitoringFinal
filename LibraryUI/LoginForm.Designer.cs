@@ -1,6 +1,6 @@
 ﻿namespace LibraryUI
 {
-    partial class LoginForm
+    partial class LoginForm1
     {
         /// <summary>
         /// Required designer variable.
@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm1));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             this.loginPanel = new Guna.UI2.WinForms.Guna2Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -58,11 +58,11 @@
             this.loginPanel.Controls.Add(this.password);
             this.loginPanel.Controls.Add(this.userName);
             this.loginPanel.Controls.Add(this.guna2Panel2);
-            this.loginPanel.CustomizableEdges = customizableEdges3;
+            this.loginPanel.CustomizableEdges = customizableEdges7;
             this.loginPanel.Location = new System.Drawing.Point(43, 40);
             this.loginPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.loginPanel.Name = "loginPanel";
-            this.loginPanel.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            this.loginPanel.ShadowDecoration.CustomizableEdges = customizableEdges8;
             this.loginPanel.Size = new System.Drawing.Size(696, 791);
             this.loginPanel.TabIndex = 0;
             this.loginPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.guna2Panel1_Paint);
@@ -152,14 +152,14 @@
             // 
             this.guna2Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(181)))), ((int)(((byte)(229)))));
             this.guna2Panel2.BorderColor = System.Drawing.Color.Transparent;
-            this.guna2Panel2.CustomizableEdges = customizableEdges1;
+            this.guna2Panel2.CustomizableEdges = customizableEdges5;
             this.guna2Panel2.Location = new System.Drawing.Point(3, 781);
             this.guna2Panel2.Name = "guna2Panel2";
-            this.guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            this.guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges6;
             this.guna2Panel2.Size = new System.Drawing.Size(690, 10);
             this.guna2Panel2.TabIndex = 0;
             // 
-            // LoginForm
+            // LoginForm1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -170,7 +170,7 @@
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(181)))), ((int)(((byte)(229)))));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MinimumSize = new System.Drawing.Size(800, 1000);
-            this.Name = "LoginForm";
+            this.Name = "LoginForm1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoginForm";
             this.Load += new System.EventHandler(this.LoginForm_Load);

@@ -19,45 +19,42 @@ namespace LibraryUI
         private Timer timer3 = new Timer();
         private Timer timer4 = new Timer();
         private Timer timer5 = new Timer();
+        int index1 = 0;
+        int index2 = 0;
+        int index3 = 0;
+        int index4 = 0;
+        int incrementIndex = 0;
+
 
 
         TimerModel timerModel = new TimerModel();
-        SeatListForm seatListForm = new SeatListForm();
-        int seat1_timer = 100;
-        int seat2_timer = 100;
-        int seat3_timer = 100;
-        int seat4_timer = 100;
-        int seat5_timer = 100;
+        // SeatListForm seatListForm = new SeatListForm();
+        int seat1_timer = 0;
+        int seat2_timer = 0;
+        int seat3_timer = 0;
+        int seat4_timer = 0;
         public int Seat1_timer { get { return seat1_timer; } set { seat1_timer = value; } }
         public int Seat2_timer { get { return seat2_timer; } set { seat2_timer = value; } }
         public int Seat3_timer { get { return seat3_timer; } set { seat3_timer = value; } }
         public int Seat4_timer { get { return seat4_timer; } set { seat4_timer = value; } }
-        public int Seat5_timer { get { return seat5_timer; } set { seat5_timer = value; } }
-        string globalVaId = "";
+        // public int Seat5_timer { get { return seat5_timer; } set { seat5_timer = value; } }
 
 
+
+        DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
 
         public LibraryDashboardForm()
         {
             InitializeComponent();
-            //Thread.Sleep(5000);
             displayData();
             ArduinoConnectModel arduinoConnectModel = new ArduinoConnectModel();
-            // availableSeatsLabel.Text = arduinoConnectModel.GetAvailableSeat().ToString();
-
-            //timer
-
-
-
-
-
 
             // Initialize the timer with a 5-second interval
-            timer1 = new Timer(500);
+            timer1 = new Timer(1000);
             timer2 = new Timer(500);
-            timer3 = new Timer(500);
-            timer4 = new Timer(500);
-            timer5 = new Timer(10000);
+            timer3 = new Timer(1500);
+            timer4 = new Timer(2000);
+            timer5 = new Timer(1000);
 
 
             // Attach an event handler for the timer's Elapsed event
@@ -65,7 +62,7 @@ namespace LibraryUI
             timer2.Elapsed += Timer2_Elapsed;
             timer3.Elapsed += Timer3_Elapsed;
             timer4.Elapsed += Timer4_Elapsed;
-            //  timer5.Elapsed += Timer5_Elapsed;
+            timer5.Elapsed += Timer5_Elapsed;
 
 
         }
@@ -73,13 +70,11 @@ namespace LibraryUI
         public LibraryDashboardForm(string Name)
         {
             InitializeComponent();
-            displayData();
+            //displayData();
             GetAllSeatTime();
             adminName.Text = Name;
-            //ArduinoConnectModel arduinoConnectModel = new ArduinoConnectModel();
-            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
-            //availableSeatsLabel.Text = arduinoConnectModel.GetAvailableSeat().ToString();
-            availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+            //availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+
             // Initialize the timer with a 5-second interval
             timer1 = new Timer(500);
             timer2 = new Timer(500);
@@ -92,8 +87,7 @@ namespace LibraryUI
             timer2.Elapsed += Timer2_Elapsed;
             timer3.Elapsed += Timer3_Elapsed;
             timer4.Elapsed += Timer4_Elapsed;
-            // timer5.Elapsed += Timer5_Elapsed;
-
+            timer5.Elapsed += Timer5_Elapsed;
 
         }
 
@@ -103,52 +97,15 @@ namespace LibraryUI
             Label.CheckForIllegalCrossThreadCalls = false;
             ComboBox.CheckForIllegalCrossThreadCalls = false;
 
-
-
-            // Start the timer when the form is loaded
-            timer1.Start();
-            timer2.Start();
-            timer3.Start();
-            timer4.Start();
-            timer5.Start();
-
         }
+
+
 
         public void Timer1_Elapsed(object sender, ElapsedEventArgs e)
         {
-            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
             // Perform any necessary UI updates on the main UI thread
             Invoke(new Action(() =>
             {
-                // Update UI elements if needed
-
-
-
-
-                try
-                {
-
-
-                    counterDataGrid[3, 0].Value = (seat1_timer--).ToString();
-                    if (seat1_timer < 0)
-                    {
-                        seat1_timer = 100;
-                    }
-
-                    if (seat1_timer == 60)
-                    {
-                        databaseAccessModel.updateSeatState1(3);
-                        displayData();
-                        availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
-
-                    };
-                }
-
-                catch (Exception ex)
-                {
-
-
-                }
 
 
 
@@ -166,46 +123,9 @@ namespace LibraryUI
 
         public void Timer2_Elapsed(object sender, ElapsedEventArgs e)
         {
-            // Create an instance of the OtherClass
-            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
 
-            // Call a method on the OtherClass
-
-
-            // Perform any necessary UI updates on the main UI thread
             Invoke(new Action(() =>
             {
-                // Update UI elements if needed
-
-
-
-
-                try
-                {
-
-                    counterDataGrid[3, 1].Value = (seat2_timer--).ToString();
-                    if (seat2_timer < 0)
-                    {
-                        seat2_timer = 100;
-                    }
-                    if (seat2_timer == 60)
-                    {
-                        databaseAccessModel.updateSeatState2(4);
-                        displayData();
-                        availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
-
-                    }
-
-
-
-                }
-                catch (Exception ex)
-                {
-
-
-                }
-
-
 
 
 
@@ -214,241 +134,83 @@ namespace LibraryUI
 
         public void Timer3_Elapsed(object sender, ElapsedEventArgs e)
         {
-            // Create an instance of the OtherClass
-
-            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
-            // Call a method on the OtherClass
-
-
-            // Perform any necessary UI updates on the main UI thread
             Invoke(new Action(() =>
             {
-                // Update UI elements if needed
-
-
-
-                try
-                {
-
-                    counterDataGrid[3, 2].Value = (seat3_timer--).ToString();
-                    if (seat3_timer < 0)
-                    {
-                        seat3_timer = 100;
-                    }
-                    if (seat3_timer == 60)
-                    {
-                        databaseAccessModel.updateSeatState3(5);
-                        displayData();
-                        availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
-
-                    }
-
-
-
-                }
-                catch (Exception ex)
-                {
-
-
-                }
-
-
-
-
 
             }));
         }
 
         public void Timer4_Elapsed(object sender, ElapsedEventArgs e)
         {
-            // Create an instance of the OtherClass
 
-
-            // Call a method on the OtherClass
-            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
 
             // Perform any necessary UI updates on the main UI thread
             Invoke(new Action(() =>
             {
-                // Update UI elements if needed
-
-
-
-                try
-                {
-
-                    counterDataGrid[3, 3].Value = (seat4_timer--).ToString();
-                    if (seat4_timer < 0)
-                    {
-                        seat4_timer = 100;
-                    }
-                    if (seat4_timer == 60)
-                    {
-                        databaseAccessModel.updateSeatState4(6);
-                        displayData();
-                        availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
-
-                    }
-
-
-
-
-
-                }
-                catch (Exception ex)
-                {
-
-
-                }
-
-
-
 
             }));
         }
 
+
+        public void Timer5_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Invoke(new Action(() =>
+            {
+                displayData();
+                //InsertAllTime();
+                availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+
+            }));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         int j = 0;
         int i = 0;
-        //public void Timer5_Elapsed(object sender, ElapsedEventArgs e)
-        //{
-
-        //    if (getData)
-        //    {
-        //        // Perform any necessary UI updates on the main UI thread
-        //        Invoke(new Action(() =>
-        //        {
-        //            string globalVa = "";
-        //            globalVaId = "";
-        //            ArduinoConnectModel arduinoConnectModel = new ArduinoConnectModel();
-        //            try
-        //            {
-        //                if (_serialPort.IsOpen)
-        //                {
-        //                    globalVa = _serialPort.ReadLine();
-        //                    seatData.Text = globalVa;
-        //                    textBoxId.Text = i++.ToString();
-        //                    //_serialPort.Close();
-        //                }
-        //                else
-        //                {
-        //                    _serialPort = new SerialPort();
-        //                    _serialPort.PortName = "COM9";
-        //                    _serialPort.BaudRate = 9600;
-        //                    _serialPort.DataBits = 8;
-        //                    _serialPort.StopBits = StopBits.One;
-        //                    _serialPort.Parity = Parity.None;
-        //                    _serialPort.Open();
-        //                    globalVa = _serialPort.ReadLine();
-        //                    seatData.Text = globalVa;
-        //                    textBoxId.Text = i++.ToString();
-        //                    //_serialPort.Close();
-        //                }
-
-        //                if (_serialPortId.IsOpen)
-        //                {
-        //                    globalVa = _serialPortId.ReadLine();
-        //                    seatData.Text = globalVa;
-        //                    //  _serialPortId.Close();
-        //                }
-        //                else
-        //                {
-        //                    _serialPortId = new SerialPort();
-        //                    _serialPortId.PortName = "COM12";
-        //                    _serialPortId.BaudRate = 9600;
-        //                    _serialPortId.DataBits = 8;
-        //                    _serialPortId.StopBits = StopBits.One;
-        //                    _serialPortId.Parity = Parity.None;
-        //                    _serialPortId.Open();
-        //                    globalVa = _serialPortId.ReadLine();
-        //                    seatData.Text = globalVa;
-        //                    //_serialPortId.Close();
-
-        //                }
-
-
-
-
-
-
-
-
-
-        //            }
-        //            catch (Exception sral)
-        //            {
-
-        //            }
-
-
-
-
-        //            char[] separator = { ',' };
-
-        //            try
-        //            {
-        //                string[] myArray = globalVa.Split(separator);
-        //                arduinoConnectModel.Seat1 = int.Parse(myArray[0]);
-        //                arduinoConnectModel.Seat2 = int.Parse(myArray[1]);
-        //                arduinoConnectModel.Seat3 = int.Parse(myArray[2]);
-        //                arduinoConnectModel.Seat4 = int.Parse(myArray[3]);
-        //                seatData.Text = globalVa;
-        //                textBoxId.Text = globalVaId;
-
-
-
-
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                // seatData.Text = (i).ToString();
-        //                seatData.Text = globalVa;
-        //                textBoxId.Text = globalVaId;
-
-
-        //            }
-
-
-        //        }));
-        //    }
-        //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // table inset seat timer
-        public void InsertAllTime()
+        public async void InsertAllTime()
         {
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
             {
-
                 var s = new DynamicParameters();
 
-                s.Add("@seat1_timer", seat1_timer);
-                s.Add("@seat2_timer", seat2_timer);
-                s.Add("@seat3_timer", seat3_timer);
-                s.Add("@seat4_timer", seat4_timer);
+                s.Add("@seat1_timer", Seat1_timer);
+                s.Add("@seat2_timer", Seat2_timer);
+                s.Add("@seat3_timer", Seat3_timer);
+                s.Add("@seat4_timer", Seat4_timer);
 
                 // s.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 connection.Execute("dbo.spInsertAllTimer", s, commandType: CommandType.StoredProcedure);
@@ -460,7 +222,7 @@ namespace LibraryUI
 
 
         // table Get timers
-        public void GetAllSeatTime()
+        public async void GetAllSeatTime()
         {
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
@@ -596,12 +358,15 @@ namespace LibraryUI
 
             try
             {
-                seatListForm.ChangeSeatStatus();
+                SeatListForm seatListForm = new SeatListForm(s1, s2, s3, s4);
                 seatListForm.Show();
+
+                //seatListForm.ChangeSeatStatus();
+                //seatListForm.Show();
             }
             catch (ObjectDisposedException e2)
             {
-                SeatListForm seatListForm = new SeatListForm();
+                SeatListForm seatListForm = new SeatListForm(s1, s2, s3, s4);
                 seatListForm.Show();
             }
 
@@ -620,14 +385,14 @@ namespace LibraryUI
         {
 
             InsertAllTime();
-            LoginForm loginForm = new LoginForm();
+            LoginForm1 loginForm = new LoginForm1();
 
             this.Hide();
             loginForm.Show();
         }
 
 
-        void displayData()
+        async void displayData()
         {
 
             using (SqlConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
@@ -670,11 +435,14 @@ namespace LibraryUI
 
         }
 
+
+
+
         private void refreshButton_Click(object sender, EventArgs e)
         {
-            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
+            // DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
 
-            databaseAccessModel.InsertSeatStatus();
+            // databaseAccessModel.InsertSeatStatus();
             databaseAccessModel.GetAvailableSeat();
             displayData();
             availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
@@ -685,18 +453,7 @@ namespace LibraryUI
 
 
 
-
-
-
-
-
-
-
-
         // other code
-
-
-
         private void connectBT_Click(object sender, EventArgs e)
         {
 
@@ -718,23 +475,23 @@ namespace LibraryUI
         {
 
             _serialPort = new SerialPort();
-            _serialPort.PortName = "COM9";
+            _serialPort.PortName = "COM6";
             _serialPort.BaudRate = 9600;
             _serialPort.DataBits = 8;
             _serialPort.StopBits = StopBits.One;
             _serialPort.Parity = Parity.None;
-            _serialPort.Open();
+            // _serialPort.Open();
 
 
 
 
             _serialPortId = new SerialPort();
-            _serialPortId.PortName = "COM12";
+            _serialPortId.PortName = "COM5";
             _serialPortId.BaudRate = 9600;
             _serialPortId.DataBits = 8;
             _serialPortId.StopBits = StopBits.One;
             _serialPortId.Parity = Parity.None;
-            _serialPortId.Open();
+            // _serialPortId.Open();
 
 
             Thread seatThread = new Thread(ReadSeatStatus);
@@ -743,7 +500,14 @@ namespace LibraryUI
 
             openPort.Enabled = false;
 
-
+            Thread.Sleep(2000);
+            timer1.Start();
+            timer2.Start();
+            timer3.Start();
+            timer4.Start();
+            timer5.Start();
+            Thread.Sleep(1000);
+            displayData();
 
         }
 
@@ -775,21 +539,13 @@ namespace LibraryUI
 
         private void enter_Click(object sender, EventArgs e)
         {
-            DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
+            // DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
 
-            // int arg = int.Parse(enterBox.Text);
-            //databaseAccessModel.GetStudentId(arg);
-            // databaseAccessModel.VerifyStudent("C69ADEF9");
-            //string id = globalVaId.Trim();
-            //43BAA9A2
-            //C69ADEF9
-            string id = enterBox.Text.Trim();
-            databaseAccessModel.VerifyStudent(id);
             displayData();
             availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+            databaseAccessModel.updateSeats(19143648);
 
-
-
+            displayData();
         }
 
         private void guna2Panel2_Paint(object sender, PaintEventArgs e)
@@ -799,105 +555,271 @@ namespace LibraryUI
         }
 
 
+        int s1;
+        int s2;
+        int s3;
+        int s4;
 
-
-        public async void ReadSeatStatus()
+        public void ReadSeatStatus()
         {
+
+            // DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
+            string globalVa = "5,5,5,5";
+            string globalVaId = "id";
+
+            ArduinoConnectModel connectModel = new ArduinoConnectModel();
             while (true)
             {
-
-
-                string globalVa = "";
-                string globalVaId = "";
 
                 try
                 {
 
-                    if (_serialPort.IsOpen)
+
+                    if (!_serialPort.IsOpen)
                     {
                         _serialPort = new SerialPort();
-                        _serialPort.PortName = "COM9";
+                        _serialPort.PortName = "COM6";
                         _serialPort.BaudRate = 9600;
                         _serialPort.DataBits = 8;
                         _serialPort.StopBits = StopBits.One;
                         _serialPort.Parity = Parity.None;
                         _serialPort.Open();
-                        globalVa = _serialPort.ReadLine();
-                        //seatData.Text = globalVa;
-                        seatData.Text = i++.ToString();
-                        Thread.Sleep(100);
+
+
+                        char[] separator = { ',' };
+
+                        try
+                        {
+                            globalVa = _serialPort.ReadLine();
+                            string[] myArray = globalVa.Split(separator);
+                            databaseAccessModel.Seat1_status = int.Parse(myArray[0]);
+                            databaseAccessModel.Seat2_status = int.Parse(myArray[1]);
+                            databaseAccessModel.Seat3_status = int.Parse(myArray[2]);
+                            databaseAccessModel.Seat4_status = int.Parse(myArray[3]);
+
+                            s1 = int.Parse(myArray[0]);
+                            s2 = int.Parse(myArray[1]);
+                            s3 = int.Parse(myArray[2]);
+                            s4 = int.Parse(myArray[3]);
+
+
+
+
+                            seatData.Text = globalVa;
+                            databaseAccessModel.InsertSeatStatus();
+                            Thread.Sleep(1000);
+                            seatData.Text = "";
+
+                        }
+                        catch (Exception ex)
+                        {
+                            databaseAccessModel.InsertSeatStatus();
+                            _serialPort.Close();
+
+                        }
+
+                        Thread.Sleep(1000);
                         _serialPort.Close();
+
 
                     }
                     else
                     {
+                        char[] separator = { ',' };
+
                         globalVa = _serialPort.ReadLine();
-                        // seatData.Text = globalVa;
-                        seatData.Text = i++.ToString();
-                        Thread.Sleep(100);
+                        string[] myArray = globalVa.Split(separator);
+                        databaseAccessModel.Seat1_status = int.Parse(myArray[0]);
+                        databaseAccessModel.Seat2_status = int.Parse(myArray[1]);
+                        databaseAccessModel.Seat3_status = int.Parse(myArray[2]);
+                        databaseAccessModel.Seat4_status = int.Parse(myArray[3]);
+
+                        s1 = int.Parse(myArray[0]);
+                        s2 = int.Parse(myArray[1]);
+                        s3 = int.Parse(myArray[2]);
+                        s4 = int.Parse(myArray[3]);
+
+
+                        seatData.Text = globalVa;
+                        Thread.Sleep(1000);
+                        seatData.Text = myArray[3];
+                        databaseAccessModel.InsertSeatStatus();
+                        globalVa = _serialPort.ReadLine();
+                        seatData.Text = globalVa;
+                        Thread.Sleep(500);
+                        seatData.Text = "";
+
+                        if (!timer1.Enabled)
+                        {
+                            timer1.Start();
+                        }
+                        if (!timer2.Enabled)
+                        {
+                            timer2.Start();
+                        }
+                        if (!timer3.Enabled)
+                        {
+                            timer3.Start();
+                        }
+                        if (!timer4.Enabled)
+                        {
+                            timer4.Start();
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         _serialPort.Close();
+
 
 
                     }
 
                 }
+
+
                 catch (Exception seatThead)
                 {
-                    seatData.Text = i++.ToString();
+                    _serialPort = new SerialPort();
+                    _serialPort.PortName = "COM6";
+                    _serialPort.BaudRate = 9600;
+                    _serialPort.DataBits = 8;
+                    _serialPort.StopBits = StopBits.One;
+                    _serialPort.Parity = Parity.None;
+                    _serialPort.Open();
+                    globalVa = _serialPort.ReadLine();
+                    seatData.Text = globalVa;
+                    databaseAccessModel.InsertSeatStatus();
                     Thread.Sleep(1000);
+                    seatData.Text = "";
+                    _serialPort.Close();
 
                 }
 
 
+
+
+
+
+
+
+
+                // second port
 
 
                 try
                 {
+                    StudentModel studentModel = new StudentModel();
 
-                    if (_serialPortId.IsOpen)
+                    if (!_serialPortId.IsOpen)
                     {
                         _serialPortId = new SerialPort();
-                        _serialPortId.PortName = "COM12";
+                        _serialPortId.PortName = "COM5";
                         _serialPortId.BaudRate = 9600;
-                        _serialPortId.DataBits = 8;
+                        _serialPort.DataBits = 8;
                         _serialPortId.StopBits = StopBits.One;
                         _serialPortId.Parity = Parity.None;
                         _serialPortId.Open();
-                        globalVa = _serialPortId.ReadLine();
-                        //seatData.Text = globalVa;
-                        textBoxId.Text = j++.ToString();
-                        Thread.Sleep(100);
+
+
+                        try
+                        {
+
+                            globalVaId = _serialPortId.ReadLine();
+                            textBoxId.Text = globalVaId;
+                            string id = globalVaId.Trim();
+
+                            databaseAccessModel.VerifyStudent(id);
+                            Thread.Sleep(1000);
+                            textBoxId.Text = "";
+                            globalVaId = "";
+                        }
+
+                        catch (Exception ex)
+                        {
+                            globalVaId = _serialPortId.ReadLine();
+                            textBoxId.Text = globalVaId;
+                            string id = globalVaId.Trim();
+
+                            databaseAccessModel.VerifyStudent(id);
+                            Thread.Sleep(1000);
+                            textBoxId.Text = "";
+                            globalVaId = "";
+                            _serialPortId.Close();
+
+                            globalVaId = "";
+
+                        }
+
+
                         _serialPortId.Close();
+
 
                     }
                     else
                     {
-                        globalVa = _serialPortId.ReadLine();
-                        //seatData.Text = globalVa;
-                        textBoxId.Text = j++.ToString();
+                        // string globalVaId = "";
+                        globalVaId = _serialPortId.ReadLine();
+                        textBoxId.Text = globalVaId;
+                        string id = globalVaId.Trim();
+                        databaseAccessModel.VerifyStudent(id);
+                        Thread.Sleep(500);
+                        textBoxId.Text = "";
+                        globalVaId = "";
+
                         _serialPortId.Close();
-                        Thread.Sleep(100);
+
+
 
                     }
 
                 }
+
+
                 catch (Exception seatThead)
                 {
-                    textBoxId.Text = j++.ToString();
-                    Thread.Sleep(100);
+
+                    StudentModel studentModel = new StudentModel();
+                    int checkSeat_status = 0;
+                    //string global;
+                    _serialPortId = new SerialPort();
+                    _serialPortId.PortName = "COM5";
+                    _serialPortId.BaudRate = 9600;
+                    _serialPortId.DataBits = 8;
+                    _serialPortId.StopBits = StopBits.One;
+                    _serialPortId.Parity = Parity.None;
+                    _serialPortId.Open();
+                    globalVaId = _serialPortId.ReadLine();
+                    textBoxId.Text = globalVaId;
+                    string id = globalVaId.Trim();
+                    databaseAccessModel.VerifyStudent(id);
+                    textBoxId.Text = "";
+                    Thread.Sleep(1000);
+                    _serialPortId.Close();
 
                 }
 
-
-
-
-
             }// endof while
+
+
+
 
         }// end of read thread
 
+        private void seatData_TextChanged(object sender, EventArgs e)
+        {
 
-
+        }
     }
 
 }
