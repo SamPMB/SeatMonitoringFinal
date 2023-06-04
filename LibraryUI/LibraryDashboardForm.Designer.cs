@@ -67,6 +67,7 @@
             pictureBox1 = new PictureBox();
             counterDataGrid = new DataGridView();
             textBoxId = new TextBox();
+            label3 = new Label();
             guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)adminImage).BeginInit();
@@ -371,6 +372,7 @@
             // 
             // guna2Panel2
             // 
+            guna2Panel2.Controls.Add(label3);
             guna2Panel2.Controls.Add(displaycard);
             guna2Panel2.Controls.Add(openPort);
             guna2Panel2.Controls.Add(connectBT);
@@ -433,6 +435,16 @@
             textBoxId.Name = "textBoxId";
             textBoxId.Size = new Size(0, 31);
             textBoxId.TabIndex = 10;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(400, 48);
+            label3.Name = "label3";
+            label3.Size = new Size(59, 25);
+            label3.TabIndex = 10;
+            label3.Text = "label3";
+            label3.Click += label3_Click_1;
             // 
             // LibraryDashboardForm
             // 
@@ -498,5 +510,6 @@
         private Label displaycard;
         private TextBox seatData;
         private TextBox textBoxId;
+        private Label label3;
     }
 }

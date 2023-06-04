@@ -40,8 +40,8 @@ namespace LibraryUI
         // public int Seat5_timer { get { return seat5_timer; } set { seat5_timer = value; } }
 
 
-
         DatabaseAccessModel databaseAccessModel = new DatabaseAccessModel();
+        StudentModel studentModel = new StudentModel();
 
         public LibraryDashboardForm()
         {
@@ -76,7 +76,7 @@ namespace LibraryUI
             //availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
 
             // Initialize the timer with a 5-second interval
-            timer1 = new Timer(500);
+            timer1 = new Timer(1000);
             timer2 = new Timer(500);
             timer3 = new Timer(500);
             timer4 = new Timer(500);
@@ -108,14 +108,247 @@ namespace LibraryUI
             {
 
 
-
-
-
-
-
+                KeepCheckingStatus();
 
             }));
         }
+
+
+        int incrementSeat1Timer = 100;
+        int incrementSeat2Timer = 200;
+        int incrementSeat3Timer = 300;
+        int incrementSeat4Timer = 400;
+
+        int seatNumber1 = 1;
+        int seatNumber2 = 2;
+        int seatNumber3 = 3;
+        int seatNumber4 = 4;
+
+        int studId;
+
+
+        public async void KeepCheckingStatus()
+        {
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
+            {
+                var s = new DynamicParameters();
+
+                s.Add("@seatStatus1", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+                s.Add("@seatStatus2", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                s.Add("@seatStatus3", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                s.Add("@seatStatus4", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute("spGetAll_seat_statusSEC", s, commandType: CommandType.StoredProcedure);
+
+                int seatStatus1 = s.Get<int>("@seatStatus1");
+                int seatStatus2 = s.Get<int>("@seatStatus2");
+                int seatStatus3 = s.Get<int>("@seatStatus3");
+                int seatStatus4 = s.Get<int>("@seatStatus4");
+
+
+
+
+
+                if (seatStatus1 == 0 && s1 == 1)
+                {
+                    incrementSeat1Timer--;
+                    if (incrementSeat1Timer < 0)
+                    {
+                        incrementSeat1Timer = 60;
+
+                        databaseAccessModel.GetSeatFromUser(studentModel.StudentId, studentModel.User_id);
+
+
+                    }
+
+                    if (incrementSeat1Timer-- > 0)
+                        CountDown(incrementSeat1Timer, seatNumber1);
+                }
+
+                if (seatStatus2 == 0 && s2 == 1)
+                {
+                    incrementSeat2Timer--;
+                    if (incrementSeat2Timer < 0)
+                    {
+                        incrementSeat2Timer = 60;
+
+                        databaseAccessModel.GetSeatFromUser(studentModel.StudentId, studentModel.User_id);
+
+
+                    }
+
+                    if (incrementSeat2Timer-- > 0)
+                        CountDown(incrementSeat2Timer, seatNumber2);
+                }
+
+                if (seatStatus3 == 0 && s3 == 1)
+                {
+                    incrementSeat3Timer--;
+
+                    if (incrementSeat3Timer < 0)
+                    {
+                        incrementSeat3Timer = 60;
+
+                        databaseAccessModel.GetSeatFromUser(studentModel.StudentId, studentModel.User_id);
+
+                    }
+                    if (incrementSeat3Timer-- > 0)
+                        CountDown(incrementSeat3Timer, seatNumber3);
+
+                }
+                if (seatStatus4 == 0 && s4 == 1)
+                {
+                    incrementSeat4Timer--;
+                    if (incrementSeat4Timer < 0)
+                    {
+                        incrementSeat4Timer = 60;
+
+                        databaseAccessModel.GetSeatFromUser(studentModel.StudentId, studentModel.User_id);
+
+                    }
+                    if (incrementSeat4Timer-- > 0)
+                        CountDown(incrementSeat4Timer, seatNumber4);
+
+                }
+
+
+            }
+
+        }
+
+
+
+        public async void ChangeStateToZero(int student_id, string user_id)
+        {
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
+            {
+                var s = new DynamicParameters();
+
+                s.Add("@student_id", student_id);
+                s.Add("@user_id", user_id);
+                connection.Execute("ChangeStateZeroSEC", s, commandType: CommandType.StoredProcedure);
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async void CountDown(int countDown, int seatNumber)
+        {
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
+            {
+                var s = new DynamicParameters();
+
+                s.Add("@countDown", countDown);
+                s.Add("@seatNumber", seatNumber);
+
+
+
+                connection.Execute("spCountDownSEC", s, commandType: CommandType.StoredProcedure);
+
+            }
+
+        }
+
+        int getSeatState = 0;
+        int getLogin_State = 0;
+        public async void GetStatus_andd_Id(int seatId)
+        {
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
+            {
+                var s = new DynamicParameters();
+
+                s.Add("@seatId", seatId);
+                s.Add("@seatStatus", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+                s.Add("@login_status", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+                connection.Execute("spGetSeatState_and_Login_states", s, commandType: CommandType.StoredProcedure);
+
+                try
+                {
+                  getSeatState   = s.Get<int>("@seatStatus");
+                  getLogin_State = s.Get<int>("@login_status");
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -159,6 +392,9 @@ namespace LibraryUI
                 displayData();
                 //InsertAllTime();
                 availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
+
+
+
 
             }));
         }
@@ -213,7 +449,7 @@ namespace LibraryUI
                 s.Add("@seat4_timer", Seat4_timer);
 
                 // s.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
-                connection.Execute("dbo.spInsertAllTimer", s, commandType: CommandType.StoredProcedure);
+                connection.Execute("spInsertAllTimerSEC", s, commandType: CommandType.StoredProcedure);
                 //id = s.Get<int>("@id");
 
             }
@@ -234,7 +470,7 @@ namespace LibraryUI
                 s.Add("@seat3_timer", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 s.Add("@seat4_timer", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                connection.Execute("dbo.spGetAll_timer", s, commandType: CommandType.StoredProcedure);
+                connection.Execute("spGetAll_timerSEC", s, commandType: CommandType.StoredProcedure);
 
                 seat1_timer = s.Get<int>("@seat1_timer");
                 seat2_timer = s.Get<int>("@seat2_timer");
@@ -361,8 +597,7 @@ namespace LibraryUI
                 SeatListForm seatListForm = new SeatListForm(s1, s2, s3, s4);
                 seatListForm.Show();
 
-                //seatListForm.ChangeSeatStatus();
-                //seatListForm.Show();
+                
             }
             catch (ObjectDisposedException e2)
             {
@@ -397,7 +632,7 @@ namespace LibraryUI
 
             using (SqlConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
             {
-                using (SqlCommand cmd = new SqlCommand("spStudents_GetAll", connection))
+                using (SqlCommand cmd = new SqlCommand("spStudents_GetAllSEC", connection))
                 {
 
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -486,7 +721,7 @@ namespace LibraryUI
 
 
             _serialPortId = new SerialPort();
-            _serialPortId.PortName = "COM5";
+            _serialPortId.PortName = "COM4";
             _serialPortId.BaudRate = 9600;
             _serialPortId.DataBits = 8;
             _serialPortId.StopBits = StopBits.One;
@@ -543,7 +778,7 @@ namespace LibraryUI
 
             displayData();
             availableSeatsLabel.Text = databaseAccessModel.GetAvailableSeat().ToString();
-            databaseAccessModel.updateSeats(19143648);
+            // databaseAccessModel.UpdateSeatsStatusTo_One(19143648);
 
             displayData();
         }
@@ -724,7 +959,7 @@ namespace LibraryUI
                     if (!_serialPortId.IsOpen)
                     {
                         _serialPortId = new SerialPort();
-                        _serialPortId.PortName = "COM5";
+                        _serialPortId.PortName = "COM4";
                         _serialPortId.BaudRate = 9600;
                         _serialPort.DataBits = 8;
                         _serialPortId.StopBits = StopBits.One;
@@ -793,7 +1028,7 @@ namespace LibraryUI
                     int checkSeat_status = 0;
                     //string global;
                     _serialPortId = new SerialPort();
-                    _serialPortId.PortName = "COM5";
+                    _serialPortId.PortName = "COM4";
                     _serialPortId.BaudRate = 9600;
                     _serialPortId.DataBits = 8;
                     _serialPortId.StopBits = StopBits.One;
@@ -820,6 +1055,12 @@ namespace LibraryUI
         {
 
         }
+
+        private void label3_Click_1(object sender, EventArgs e)
+        {
+            label3.Text = databaseAccessModel.TextsO.ToString();
+               
+                }
     }
 
 }
