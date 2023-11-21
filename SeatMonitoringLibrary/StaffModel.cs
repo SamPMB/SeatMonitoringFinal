@@ -24,54 +24,7 @@ namespace SeatMonitoringLibrary
 
 
 
-        //// validate  card
-        //public bool StaffLoginInValidation(string staffId)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
-        //    {
-
-
-        //        using (SqlCommand cmd = new SqlCommand("spStaffLoginValidate", connection))
-        //        {
-
-        //            cmd.CommandType = CommandType.StoredProcedure;
-
-
-        //            cmd.Parameters.AddWithValue("@StaffId", Id);
-
-
-
-
-        //            if (connection.State != ConnectionState.Open)
-        //            {
-        //                connection.Open();
-        //            }
-
-
-        //            DataTable loginDataTable = new DataTable();
-        //            SqlDataReader dataReader = cmd.ExecuteReader();
-
-        //            ////check if the data retrieve matches user information entered
-        //            if (dataReader.HasRows)
-        //            {
-        //                //DO SOMETHING
-        //                return true;
-        //            }
-        //            else
-        //            {
-        //                // MessageBox.Show("User does not exist!");
-        //                Console.WriteLine("not match");
-        //            }
-        //            connection.Close();
-        //        }
-
-
-
-        //        return false;
-
-        //    }
-
-        //}
+       
 
 
 

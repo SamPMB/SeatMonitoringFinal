@@ -10,8 +10,9 @@ namespace SeatMonitoringLibrary
     public class DatabaseAccessModel
     {
 
-       
-       
+        int asignedSeat = 0;
+        public  int AsignedSeat { get { return asignedSeat; } set { asignedSeat = value; } }
+
 
         int seatTime = 0;
         int seatStatus = 0;
@@ -79,16 +80,21 @@ namespace SeatMonitoringLibrary
                 s.Add("@year", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 s.Add("@studentId", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 connection.Execute("dbo.spValidateLogin_userIdSEC", s, commandType: CommandType.StoredProcedure);
-                studentModel.First_Name = s.Get<string>("@firstName");
-                 studentModel.Last_Name = s.Get<string>("@lastName");
-                last_name = s.Get<string>("@lastName");
-                studentModel.Year = s.Get<int>("@year");
-                student_id = s.Get<int>("@studentId");
-                studentModel.StudentId = student_id;
-                studentModel.User_id = user_id;
-                user_id = user_id;
 
+                
 
+               
+                    studentModel.First_Name = s.Get<string>("@firstName");
+                    studentModel.Last_Name = s.Get<string>("@lastName");
+                    first_name = s.Get<string>("@firstName");
+                    last_name = s.Get<string>("@lastName");
+                    studentModel.Year = s.Get<int>("@year");
+                    student_id = s.Get<int>("@studentId");
+                    studentModel.StudentId = student_id;
+                    studentModel.User_id = user_id;
+                    user_id = user_id;
+
+        
             }
 
             CheckIfIdExit(student_id);
@@ -134,7 +140,7 @@ namespace SeatMonitoringLibrary
             CheckIfIdExit(student_id);
             GetSeatState(student_id,user_id);
             CheckLoginStatus(student_id, user_id);
-            
+            Thread.Sleep(1000);
             
             if (seatState == 1 && isLoggedIn == true)
             {
@@ -156,20 +162,64 @@ namespace SeatMonitoringLibrary
 
                
             }
-            
+
+             
+
+
+
+
             if (isIdExist == false)
             {
                 
                
-                    AsignSeat(freeSeatId, first_name, last_name, year_of_study, student_id, user_id);
+                    AsignSeat(freeSeatId, first_name, last_name, year_of_study, student_id, user_id,100);
 
+                   AsignedSeat = freeSeatId;
             }
            
 
 
         }
 
-        public async void AsignSeat(int freeSeat_id, string first_name,string last_name, int year_of_study, int student_id, string user_id)
+
+
+
+
+        private async void DeleteId(int student_id)
+        {
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
+            {
+                var s = new DynamicParameters();
+
+                s.Add("@student_id", student_id);
+                connection.Execute("DeleteIdSEC", s, commandType: CommandType.StoredProcedure);
+
+            }
+
+        }
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async void AsignSeat(int freeSeat_id, string first_name,string last_name, int year_of_study, int student_id, string user_id, int awayTime)
         {
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
@@ -179,6 +229,7 @@ namespace SeatMonitoringLibrary
 
                 
                 s.Add("@freeSeat_id", freeSeat_id);
+                s.Add("@awayTime", awayTime);
                 s.Add("@first_name", first_name);
                 s.Add("@last_name", last_name);
                 s.Add("@user_id", user_id);
@@ -192,8 +243,6 @@ namespace SeatMonitoringLibrary
        // bool isIdExist = false;
         public async void CheckIfIdExit(int student_id)
         {
-
-
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
             {
 
@@ -203,8 +252,6 @@ namespace SeatMonitoringLibrary
                 s.Add("@student_id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 connection.Execute("spIsIdExistSEC", s, commandType: CommandType.StoredProcedure);
                 
-
-
 
                 try
                 {
@@ -220,10 +267,6 @@ namespace SeatMonitoringLibrary
                         isIdExist = false;
 
                     }
-
-
-
-
                 }
                 catch (Exception ex)
                 {
@@ -232,23 +275,7 @@ namespace SeatMonitoringLibrary
 
                 }
 
-               
-
-
-
-
             }
-
-
-
-
-
-
-
-
-
-
-
 
         }
 
@@ -473,30 +500,17 @@ namespace SeatMonitoringLibrary
         }
 
 
-        //public int GetSeat_status(int studentId, string user_id)
-        //{
+        
 
 
-        //    using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
-        //    {
-        //        var s = new DynamicParameters();
 
-        //        s.Add("@student_id", studentId);
-        //        s.Add("@seat_status", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
-        //        s.Add("@seat_time", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
-        //        connection.Execute("dbo.spGet_seatStatus", s, commandType: CommandType.StoredProcedure);
 
 
 
-        //        seatStatus = s.Get<int>("@seatStatus");
-        //        SeatTime = s.Get<int>("@seatTime");
 
 
-        //    }
 
 
-        //    return SeatStatus;
-        //}
 
 
 
@@ -562,20 +576,11 @@ namespace SeatMonitoringLibrary
 
 
 
-        //public async void UpdateSeatsStatusTo_One(int studentId)
-        //{
 
-        //    using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
-        //    {
-        //        var s = new DynamicParameters();
 
-        //        s.Add("@StudentId", studentId);
-        //        connection.Execute("dbo.spUpdateSeats_To_One", s, commandType: CommandType.StoredProcedure);
 
 
-        //    }
 
-        //}
 
 
 
@@ -713,146 +718,6 @@ namespace SeatMonitoringLibrary
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //public async void GetFreeSeat()
-        //{
-
-        //    using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
-        //    {
-        //        var s = new DynamicParameters();
-
-        //        s.Add("@seatId", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
-        //        connection.Execute("dbo.spGetFreeSeatSEC", s, commandType: CommandType.StoredProcedure);
-
-        //        try
-        //        {
-        //            studentModel.SeatId = s.Get<int>("@seatId");
-
-        //        }
-        //        catch (Exception dbex)
-        //        {
-
-        //        }
-
-        //    }
-
-        //    // Get login status fron student table
-        //      GetLoginSeatStatus(studentModel.StudentId);
-
-
-
-        //    if (isLoggedIn(studentModel.StudentId) && CheckSeatState ==1 )
-        //    {
-        //         CheckSeatState = 0;
-        //        LoginSeatStatusUpdateTo_zero(studentModel.StudentId);
-
-        //        return;
-
-        //    }else
-
-        //    if (isLoggedIn(studentModel.StudentId) && CheckSeatState == 0)
-        //    {
-        //        CheckSeatState = 1;
-
-
-        //        LoginSeatStatusUpdateTo_one(studentModel.StudentId);
-
-        //        return;
-
-
-        //    }
-        //    else
-        //    if (isLoggedIn(studentModel.StudentId) == false && checkSeatState == 1)
-        //    {
-
-        //        GetSeatFromUser(studentModel.StudentId);
-        //        LoginSeatStatusUpdateTo_zero(studentModel.StudentId);
-
-        //        CheckSeatState = 0;
-
-        //    }
-        //    else
-        //    {
-
-
-        //        AsignSeat(studentModel.SeatId, studentModel.First_Name, studentModel.Year, studentModel.StudentId);
-
-        //    }
-
-
-        //}
-
-        //bool isLoggedIn(int studentId)
-        //{
-
-
-
-        //    using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
-        //    {
-        //        var s = new DynamicParameters();
-
-        //        s.Add("@studentId", studentId);
-        //        s.Add("@isLoggedStatus", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
-        //        connection.Execute("spIsLoggedIn", s, commandType: CommandType.StoredProcedure);
-
-
-        //        int rst = 0;
-
-
-        //        try
-        //        {
-
-
-        //            rst = s.Get<int>("@isLoggedIn");
-
-
-        //        }
-        //        catch (Exception ex)
-        //        {
-
-        //            return false;
-        //        }
-
-
-
-
-
-        //    }
-
-
-        //    return true;
-        //}
-
-
-
-
-
-
-
-
-
-
-
-        //public async void UpdateSeatsStatusTo_One(int studentId)
-        //{
 
         //    using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(DatabaseConnection.ConnString("LibraryDb")))
         //    {

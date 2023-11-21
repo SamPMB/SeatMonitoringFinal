@@ -18,9 +18,9 @@ namespace LibraryUI
             try
             {
                 LoginForm1 loginForm = new LoginForm1();
+              
                 Application.Run(loginForm);
-
-            }
+            }   
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
